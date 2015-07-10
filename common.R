@@ -22,11 +22,10 @@ getdata <- function() {
                          colClasses = c("character", "character", rep("numeric", 7)))
     
     ## coerce Time from character to POSIXlt/POSIXct
-    datetime <- paste(mydata$Date, mydata$Time)
-    mydata$Time <- strptime(datetime, "%d/%m/%Y %H:%M:%S")
-    
-    ## remove date column
-    mydata <- subset(mydata, select = -1)
-    mydata
+    ## remove Date column
+    within(mydata, {
+        Time <- strptime(paste(Date, Time), "%d/%m/%Y %H:%M:%S")
+        rm(Date)
+    })
 }
 
